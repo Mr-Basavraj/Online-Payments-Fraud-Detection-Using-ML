@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Online Payments Fraud Detection</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #e8f4fd;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav {
+      background: #1565c0;
+      padding: 14px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav .brand { color: white; font-size: 18px; font-weight: 600; }
+    nav a {
+      color: white; text-decoration: none;
+      background: #0d47a1; padding: 6px 16px;
+      border-radius: 4px; font-size: 14px;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 50px auto;
+      background: white;
+      border-radius: 12px;
+      padding: 36px 40px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #1565c0;
+      margin-bottom: 8px;
+      font-size: 22px;
+    }
+
+    p.subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 28px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 4px;
+      margin-top: 14px;
+    }
+
+    select, input[type="number"] {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #333;
+      background: #f9f9f9;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: #1565c0;
+      background: white;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 24px;
+      padding: 12px;
+      background: #1565c0;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #0d47a1; }
+
+    .result {
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .result.fraud    { background: #fdecea; color: #c62828; border: 1px solid #ef9a9a; }
+    .result.notfraud { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+    .result.default  { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="brand">🔒 Fraud Detection</span>
+    <a href="/">Home</a>
+  </nav>
+
+  <div class="container">
+    <h2>Online Payments Fraud Detection</h2>
+    <p class="subtitle">Enter transaction details to check if it's fraudulent</p>
+
+    <form action="/predict" method="POST">
+
+      <label for="type">Transaction Type</label>
+      <select name="type" id="type" required>
+        <option value="" disabled selected>-- Select type --</option>
+        <option value="CASH_OUT">CASH_OUT</option>
+        <option value="PAYMENT">PAYMENT</option>
+        <option value="CASH_IN">CASH_IN</option>
+        <option value="TRANSFER">TRANSFER</option>
+        <option value="DEBIT">DEBIT</option>
+      </select>
+
+      <label for="amount">Amount</label>
+      <input type="number" step="0.01" name="amount" id="amount"
+             placeholder="e.g. 9839.64" required min="0"/>
+
+      <label for="oldbalanceOrg">Old Balance (Origin)</label>
+      <input type="number" step="0.01" name="oldbalanceOrg" id="oldbalanceOrg"
+             placeholder="e.g. 170136.00" required min="0"/>
+
+      <label for="newbalanceOrig">New Balance (Origin)</label>
+      <input type="number" step="0.01" name="newbalanceOrig" id="newbalanceOrig"
+             placeholder="e.g. 160296.36" required min="0"/>
+
+      <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction_text %}
+      {% if "NOT FRAUD" in prediction_text %}
+        <div class="result notfraud">{{ prediction_text }}</div>
+      {% elif "FRAUD" in prediction_text %}
+        <div class="result fraud">{{ prediction_text }}</div>
+      {% else %}
+        <div class="result default">{{ prediction_text }}</div>
+      {% endif %}
+    {% endif %}
+
+  </div>
+
+</body>
+</html>
