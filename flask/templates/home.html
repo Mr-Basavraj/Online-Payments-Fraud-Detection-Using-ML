@@ -146,55 +146,22 @@
 
 <body>
 
-  <nav>
-    <span class="brand">🔒 Fraud Detection</span>
-    <div class="nav-links">
-      <a href="home.html">Home</a>
-      <a href="index.html">Predict</a>
+    <nav>
+        <span class="brand">🔒 Fraud Detection</span>
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="index.html">Predict</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Online Payments Fraud Detection</h2>
+        <p class="subtitle">Detect fraudulent transactions using ML</p>
+
+        <button onclick="window.location.href='index.html'">
+            Go to Prediction
+        </button>
     </div>
-  </nav>
-
-  <div class="container">
-    <h2>Online Payments Fraud Detection</h2>
-    <p class="subtitle">Enter transaction details to check if it's fraudulent</p>
-
-    <form action="submit.html" method="GET">
-
-      <label for="type">Transaction Type</label>
-      <select name="type" id="type" required>
-        <option value="" disabled selected>-- Select type --</option>
-        <option value="CASH_OUT">CASH_OUT</option>
-        <option value="PAYMENT">PAYMENT</option>
-        <option value="CASH_IN">CASH_IN</option>
-        <option value="TRANSFER">TRANSFER</option>
-        <option value="DEBIT">DEBIT</option>
-      </select>
-
-      <label for="amount">Amount</label>
-      <input type="number" step="0.01" name="amount" id="amount" placeholder="e.g. 9839.64" required min="0" />
-
-      <label for="oldbalanceOrg">Old Balance (Origin)</label>
-      <input type="number" step="0.01" name="oldbalanceOrg" id="oldbalanceOrg" placeholder="e.g. 170136.00" required
-        min="0" />
-
-      <label for="newbalanceOrig">New Balance (Origin)</label>
-      <input type="number" step="0.01" name="newbalanceOrig" id="newbalanceOrig" placeholder="e.g. 160296.36" required
-        min="0" />
-
-      <button type="submit">Predict</button>
-    </form>
-
-    {% if prediction_text %}
-    {% if "NOT FRAUD" in prediction_text %}
-    <div class="result notfraud">{{ prediction_text }}</div>
-    {% elif "FRAUD" in prediction_text %}
-    <div class="result fraud">{{ prediction_text }}</div>
-    {% else %}
-    <div class="result default">{{ prediction_text }}</div>
-    {% endif %}
-    {% endif %}
-
-  </div>
 
 </body>
 
