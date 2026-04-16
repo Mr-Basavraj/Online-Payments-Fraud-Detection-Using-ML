@@ -28,7 +28,7 @@ def predict():
         prediction = model.predict(features)[0]
 
         result = "FRAUD ⚠️" if prediction == 1 else "NOT FRAUD ✅"
-        return render_template('index.html', prediction_text=f"Prediction: This transaction is {result}")
+        return render_template('submit.html', prediction_text=f"Prediction: This transaction is {result}")
 
     return render_template('index.html')
 
