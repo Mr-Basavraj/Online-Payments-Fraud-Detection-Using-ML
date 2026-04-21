@@ -160,14 +160,29 @@
     </div>
   </nav>
 
-  <div class="container">
-    <h2>Prediction Result</h2>
+ <div class="container">
+  <h2>Prediction Result</h2>
 
-    <h1>{{ prediction_text }}</h1>
-    <button onclick="window.location.href='index.html'">
-      Try Again
-    </button>
-  </div>
+  {% if "NOT FRAUD" in prediction_text %}
+    <div class="result notfraud">
+      ✅ {{ prediction_text }}
+    </div>
+
+  {% elif "FRAUD" in prediction_text %}
+    <div class="result fraud">
+      ⚠️ {{ prediction_text }}
+    </div>
+
+  {% else %}
+    <div class="result default">
+      {{ prediction_text }}
+    </div>
+  {% endif %}
+
+  <button onclick="window.location.href='index.html'">
+    Try Again
+  </button>
+</div>
 
 </body>
 
